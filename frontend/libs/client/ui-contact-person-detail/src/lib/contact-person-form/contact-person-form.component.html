@@ -18,6 +18,7 @@
           type="text"
           #first_name_input
           (blur)="trimValue(first_name_input)"
+          data-cy="contact-person-form-first-name"
         />
         <mat-error *ngFor="let error of validationErrorService.getErrorKeys(formGroup.controls.firstName)">
           {{ validationErrorService.getErrorMessage(formGroup.controls.firstName, error) | async }}
@@ -31,6 +32,7 @@
           type="text"
           #last_name_input
           (blur)="trimValue(first_name_input)"
+          data-cy="contact-person-form-last-name"
         />
         <mat-error *ngFor="let error of validationErrorService.getErrorKeys(formGroup.controls.lastName)">
           {{ validationErrorService.getErrorMessage(formGroup.controls.lastName, error) | async }}
@@ -53,7 +55,7 @@
             {{ validationErrorService.getErrorMessage(formGroup.controls.phone, error) | async }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="full-width">
+        <mat-form-field class="full-width" data-cy="contact-person-form-mobile-phone2">
           <input
             data-cy="input-mobilePhone"
             matInput
@@ -64,6 +66,7 @@
             type="phone"
             #mobile_phone_input
             (blur)="trimValue(mobile_phone_input)"
+            data-cy="contact-person-form-mobile-phone"
           />
           <mat-error *ngFor="let error of validationErrorService.getErrorKeys(formGroup.controls.mobilePhone)">
             {{ validationErrorService.getErrorMessage(formGroup.controls.mobilePhone, error) | async }}

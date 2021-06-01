@@ -9,7 +9,7 @@
     <fieldset class="mb-3">
       <legend>Zusätzliche Informationen zum Fallabschluss:</legend>
       <mat-form-field class="full-width">
-        <textarea matInput formControlName="comment" type="text"></textarea>
+        <textarea matInput formControlName="comment" type="text" data-cy="comment-textarea"></textarea>
         <mat-error *ngFor="let error of validationErrorService.getErrorKeys(commentGroup.controls.comment)">
           {{ validationErrorService.getErrorMessage(commentGroup.controls.comment, error) | async }}
         </mat-error>
@@ -18,11 +18,15 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button [disabled]="!commentGroup.get('comment').value" mat-raised-button color="primary" (click)="confirm()">
+  <button
+    data-cy="confirm-button"
+    [disabled]="!commentGroup.get('comment').value"
+    mat-raised-button
+    color="primary"
+    (click)="confirm()"
+  >
     <mat-icon>check</mat-icon>
     OK
   </button>
-  <button mat-raised-button mat-dialog-close color="secondary" cdkFocusInitial>
-    Abbrechen
-  </button>
+  <button mat-raised-button mat-dialog-close color="secondary" cdkFocusInitial>Abbrechen</button>
 </mat-dialog-actions>
