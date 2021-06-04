@@ -53,3 +53,11 @@ body {
 .qro-tooltip {
   font-size: 14px;
 }
+
+.timepicker-overlay {
+  z-index: 10000 !important;
+}
+
+.timepicker-backdrop-overlay {
+  z-index: 10000 !important;
+}

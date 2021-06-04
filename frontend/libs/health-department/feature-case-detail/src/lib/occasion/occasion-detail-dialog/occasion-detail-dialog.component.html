@@ -1,0 +1,148 @@
+<h2 mat-dialog-title>Ereignis Details</h2>
+
+<mat-dialog-content>
+  <form class="new-event-form" [formGroup]="occasionFormGroup">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input required formControlName="title" matInput placeholder="Ereignis Details" />
+      <mat-error *ngIf="occasionFormGroup?.controls?.title?.errors?.required">Name</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Ansprechpartner</mat-label>
+      <input formControlName="contactPerson" matInput placeholder="Ansprechpartner" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Startdatum</mat-label>
+      <input required formControlName="start" matInput placeholder="Startdatum" [matDatepicker]="dateFrom" />
+      <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+      <mat-datepicker #dateFrom></mat-datepicker>
+      <mat-error *ngIf="occasionFormGroup?.controls?.start?.errors?.required">Dies ist ein Pflichtfeld</mat-error>
+    </mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Startdatum</mat-label>
+        <div class="timepicker-input">
+          <input matInput placeholder="Startdatum" formControlName="timeStart" />
+          <button mat-icon-button (click)="fromTime.open()">
+            <mat-icon>schedule</mat-icon>
+          </button>
+        </div>
+        <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.timeStart)">
+          {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.timeStart, error) | async }}
+        </mat-error>
+      </mat-form-field>
+      <ngx-material-timepicker
+        [cancelBtnTmpl]="cancelBtn"
+        [confirmBtnTmpl]="confirmBtn"
+        [theme]="timepickerTheme"
+        [disableAnimation]="true"
+        #fromTime
+        [format]="24"
+        (timeSet)="setPickedStartTime($event)"
+      ></ngx-material-timepicker>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Enddatum</mat-label>
+      <input required formControlName="end" matInput placeholder="Enddatum" [matDatepicker]="dateTo" />
+      <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+      <mat-datepicker #dateTo></mat-datepicker>
+      <mat-error *ngIf="occasionFormGroup?.controls?.start?.errors?.required">Dies ist ein Pflichtfeld</mat-error>
+    </mat-form-field>
+
+    <div>
+      <mat-form-field>
+        <mat-label>Uhrzeit bis</mat-label>
+        <div class="timepicker-input">
+          <input disabled matInput placeholder="Uhrzeit bis" formControlName="timeEnd" />
+          <button mat-icon-button (click)="toTime.open()">
+            <mat-icon>schedule</mat-icon>
+          </button>
+        </div>
+        <mat-error *ngIf="occasionFormGroup?.controls?.timestamp?.errors?.pattern"
+          >Benötigtes Format hh:mm (20:15)</mat-error
+        >
+        <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.timeEnd)">
+          {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.timeEnd, error) | async }}
+        </mat-error>
+      </mat-form-field>
+      <ngx-material-timepicker
+        [cancelBtnTmpl]="cancelBtn"
+        [confirmBtnTmpl]="confirmBtn"
+        [theme]="timepickerTheme"
+        [disableAnimation]="true"
+        [format]="24"
+        #toTime
+        (timeSet)="setPickedEndTime($event)"
+      ></ngx-material-timepicker>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Straße</mat-label>
+      <input formControlName="street" matInput placeholder="Straße" />
+      <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.street)">
+        {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.street, error) | async }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Hausnummer</mat-label>
+      <input formControlName="houseNumber" matInput placeholder="Hausnummer" />
+      <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.houseNumber)">
+        {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.houseNumber, error) | async }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>PLZ</mat-label>
+      <input formControlName="zipCode" matInput placeholder="PLZ" />
+      <mat-error *ngIf="occasionFormGroup?.controls?.zipCode?.errors?.required">Dies ist ein Pflichtfeld</mat-error>
+      <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.zipCode)">
+        {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.zipCode, error) | async }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Stadt</mat-label>
+      <input formControlName="city" matInput placeholder="Stadt" />
+      <mat-error *ngFor="let error of validationErrorService.getErrorKeys(occasionFormGroup.controls.city)">
+        {{ validationErrorService.getErrorMessage(occasionFormGroup.controls.city, error) | async }}
+      </mat-error>
+    </mat-form-field>
+
+    <fieldset class="additional-info">
+      <legend>Zusätzliche Beschreibung</legend>
+
+      <mat-form-field class="full-width">
+        <textarea matInput formControlName="additionalInformation" type="text"></textarea>
+      </mat-form-field>
+    </fieldset>
+
+    <mat-form-field *ngIf="initialOccasion?.occasionCode">
+      <mat-label>Ereignis Code</mat-label>
+      <input readonly formControlName="occasionCode" matInput placeholder="Ereignis Code" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Abbrechen</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    (click)="closeAndSubmit()"
+    [disabled]="occasionFormGroup?.invalid || occasionFormGroup?.untouched"
+  >
+    Speichern
+  </button>
+</mat-dialog-actions>
+
+<ng-template #cancelBtn>
+  <button mat-button>Abbrechen</button>
+</ng-template>
+<ng-template #confirmBtn>
+  <button mat-button color="primary">Ok</button>
+</ng-template>

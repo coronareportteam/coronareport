@@ -8,6 +8,7 @@ import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { AuthStore, CaseType, HealthDepartmentDto } from '@qro/auth/api';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { OccasionDto } from '../model/occasion';
 
 @Injectable({
   providedIn: 'root',
@@ -90,6 +91,24 @@ export class HealthDepartmentService {
 
     return this.httpClient
       .post<string>(`${this.apiUrl}/hd/export/${selectedExportFormat}${queryParam}`, dto, options)
+      .pipe(shareReplay());
+  }
+
+  addOccasion(caseId: string, event: any): Observable<any> {
+    return this.httpClient.post(`${this.apiUrl}/hd/cases/${caseId}/occasions`, event).pipe(shareReplay());
+  }
+
+  getOccasion(): Observable<any> {
+    return this.httpClient.get(`${this.apiUrl}/hd/occasions`).pipe(shareReplay());
+  }
+
+  deleteOccasion(occasion: any): Observable<any> {
+    return this.httpClient.delete(occasion._links.self.href).pipe(shareReplay());
+  }
+
+  editOccasion(occasionCode: string, occasion: OccasionDto): Observable<any> {
+    return this.httpClient
+      .put<OccasionDto>(`${this.apiUrl}/hd/occasions/${occasionCode}`, occasion)
       .pipe(shareReplay());
   }
 

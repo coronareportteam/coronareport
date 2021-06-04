@@ -81,7 +81,7 @@ describe(
         });
 
       cy.get('[data-cy="start-tracking-button"]').should('be.enabled');
-      cy.get('.mat-tab-links').children().should('have.length', 5);
+      cy.get('.mat-tab-links').children().should('have.length', 6);
 
       cy.get('[data-cy="start-tracking-button"]').click();
       cy.wait('@registration').its('status').should('eq', 200);

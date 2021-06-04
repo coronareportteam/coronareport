@@ -70,6 +70,18 @@ class OccasionRepresentions {
 		 * The end date and time of the occasion.
 		 */
 		LocalDateTime end;
+
+		@Pattern(regexp = Strings.STREET) String street;
+
+		@Pattern(regexp = Strings.HOUSE_NUMBER) String houseNumber;
+
+		@Pattern(regexp = ZipCode.PATTERN) String zipCode;
+
+		@Pattern(regexp = Strings.CITY) String city;
+
+		@Textual String contactPerson;
+
+		@Textual String additionalInformation;
 	}
 
 	interface OccasionSummary {
@@ -80,6 +92,12 @@ class OccasionRepresentions {
 
 		LocalDateTime getEnd();
 
+		OccasionAddress getAddress();
+
+		String getAdditionalInformation();
+
+		String getContactPerson();
+
 		/**
 		 * An 8-digit occasion code to be handed to location owners or third-party software to report visitor groups. Note
 		 * the absence of characters that might be ambiguous when transmitted verbally or in hand writing (I, J, 1, O, 0).
@@ -89,6 +107,18 @@ class OccasionRepresentions {
 		String getOccasionCode();
 
 		List<VisitorGroupSummary> getVisitorGroups();
+
+		interface OccasionAddress{
+
+			String getStreet();
+
+			String getHouseNumber();
+
+			String getZipCode();
+
+			String getCity();
+
+		}
 
 		interface VisitorGroupSummary {
 

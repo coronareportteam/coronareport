@@ -1,0 +1,24 @@
+<mat-card>
+  <h2>{{ occasion.title }}</h2>
+
+  <mat-card-content>
+    <div>Ereignis Code: {{ occasion?.occasionCode }}</div>
+    <div>Anzahl Teilnehmer: {{ occasion?.visitorGroups?.length }}</div>
+    <div>Start: {{ occasion?.start | date: 'EEEEEE, dd.MM.y' }}</div>
+    <div>Ende: {{ occasion?.end | date: 'EEEEEE, dd.MM.y' }}</div>
+  </mat-card-content>
+
+  <mat-card-footer>
+    <button
+      [disabled]="occasion?.visitorGroups?.length > 0"
+      class="mr-2 mb-2"
+      mat-icon-button
+      (click)="deleteOccasion()"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button class="mr-2 mb-2" mat-icon-button (click)="editOccasion(occasion)">
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card-footer>
+</mat-card>

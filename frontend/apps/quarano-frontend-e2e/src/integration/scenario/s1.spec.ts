@@ -117,6 +117,7 @@ describe('S1 - Externe PLZ führt zu Status externe PLZ', { defaultCommandTimeou
     cy.wait('@getEmailText').its('response.statusCode').should('eq', 200);
     cy.get('qro-client-mail > div > pre')
       .should('exist')
+      .should('be.visible')
       .extractActivationCode(0, 'index')
       .then((extractedActivationCode) => {
         // 15 - Logout als GAMA
@@ -296,6 +297,7 @@ describe('S1 - Externe PLZ führt zu Status externe PLZ', { defaultCommandTimeou
     cy.wait('@getEmailText').its('response.statusCode').should('eq', 200);
     cy.get('qro-client-mail > div > pre')
       .should('exist')
+      .should('be.visible')
       .extractActivationCode(0, 'contact')
       .then((extractedActivationCode) => {
         // 48 - Logout als GAMA

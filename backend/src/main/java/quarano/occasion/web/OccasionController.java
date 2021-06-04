@@ -18,11 +18,14 @@ import org.springframework.hateoas.LinkRelation;
 import org.springframework.hateoas.mediatype.hal.HalModelBuilder;
 import org.springframework.hateoas.server.mvc.MvcLink;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,6 +72,44 @@ class OccasionController {
 	}
 
 	/**
+	 * Update the occasion registered for the given {@link OccasionCode}.
+	 *
+	 * @param occasionCode must not be {@literal null}.
+	 * @param payload
+	 * @param errors
+	 * @return will never be {@literal null}.
+	 */
+	@PutMapping("/hd/occasions/{occasionCode:" + OccasionCode.REGEX + "}")
+	HttpEntity<?> getOccasion(@PathVariable OccasionCode occasionCode, @RequestBody OccasionsDto payload, Errors errors) {
+		var existing = occasions.findOccasionBy(occasionCode).orElse(null);
+		return MappedPayloads.of(payload, errors)
+				.notFoundIf(existing == null)
+				.map(it -> occasions.updateOccasionBy(it.title, it.start, it.end, it.street, it.houseNumber, it.zipCode, it.city, it.additionalInformation, it.contactPerson, existing))
+				.map(representations::toSummary)
+				.concludeIfValid(ResponseEntity::ok);
+	}
+
+
+	/**
+	 * Delete the occasion registered for the given {@link OccasionCode}.
+	 *
+	 * @param occasionCode must not be {@literal null}.
+	 * @return will never be {@literal null}.
+	 */
+
+	@DeleteMapping("/hd/occasions/{occasionCode:" + OccasionCode.REGEX + "}")
+	HttpEntity<?> deleteOccasion(@PathVariable OccasionCode occasionCode) {
+
+		return occasions.findOccasionBy(occasionCode)
+				.map(it -> {
+					occasions.deleteOccasion(it);
+					return ResponseEntity.ok()
+							.contentType(MediaType.APPLICATION_JSON)
+							.build();
+				}).orElseGet(() -> ResponseEntity.badRequest().build());
+	}
+
+	/**
 	 * Creates a new occasion associated with the {@link TrackedCase} identified by the given
 	 * {@link TrackedCaseIdentifier}.
 	 *
@@ -82,7 +123,7 @@ class OccasionController {
 			@RequestBody OccasionsDto payload, Errors errors) {
 
 		return MappedPayloads.of(payload, errors)
-				.flatMap(it -> occasions.createOccasion(it.title, it.start, it.end, trackedCaseId))
+				.flatMap(it -> occasions.createOccasion(it.title, it.start, it.end, it.street, it.street, it.zipCode, it.city, it.additionalInformation, it.contactPerson,  trackedCaseId))
 				.map(representations::toSummary)
 				.concludeIfValid(ResponseEntity::ok);
 	}

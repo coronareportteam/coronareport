@@ -1,0 +1,46 @@
+form {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.event-sub-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+mat-form-field {
+  margin: 20px;
+}
+
+.new-event-form {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(4, auto);
+}
+
+.additional-info {
+  padding-right: 55px;
+  grid-column: 1 / 5;
+  grid-row: 6;
+}
+
+.timepicker-input {
+  display: flex;
+
+  .mat-icon-button {
+    line-height: 13px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .material-icons {
+    font-size: 14px;
+  }
+
+  .mat-icon-button i,
+  .mat-icon-button .mat-icon {
+    line-height: 14px;
+    padding-right: 10px;
+  }
+}

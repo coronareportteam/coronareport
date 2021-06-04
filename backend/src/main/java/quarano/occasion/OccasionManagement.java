@@ -1,6 +1,8 @@
 package quarano.occasion;
 
 import lombok.RequiredArgsConstructor;
+import quarano.core.Address;
+import quarano.core.ZipCode;
 import quarano.department.TrackedCase.TrackedCaseIdentifier;
 import quarano.department.TrackedCaseRepository;
 
@@ -32,16 +34,42 @@ public class OccasionManagement {
 	 * @param title must not be {@literal null} or empty.
 	 * @param start must not be {@literal null}.
 	 * @param end must not be {@literal null}.
+	 * @param street
+	 * @param s
+	 * @param postalCode
+	 * @param city
+	 * @param contactPerson
+	 * @param additionalInformation
 	 * @param trackedCaseId the {@link TrackedCaseIdentifier} for the case which the {@link Occasion} to be created shall
 	 *          be associated with. Must not be {@literal null}.
 	 * @return will never be {@literal null}.
 	 */
 	public Optional<Occasion> createOccasion(String title, LocalDateTime start, LocalDateTime end,
-			TrackedCaseIdentifier trackedCaseId) {
-
+											 String street, String houseNumber, String zipCode, String city, String additionalInformation, String contactPerson, TrackedCaseIdentifier trackedCaseId) {
+		Address address = new Address(street, Address.HouseNumber.of(houseNumber), city, ZipCode.of(zipCode));
 		return !trackedCaseRepository.existsById(trackedCaseId)
 				? Optional.empty()
-				: Optional.of(occasions.save(new Occasion(title, start, end, findValidOccasionCode(), trackedCaseId)));
+				: Optional.of(occasions.save(new Occasion(title, start, end, address,additionalInformation, contactPerson, findValidOccasionCode(), trackedCaseId)));
+	}
+
+	/**
+	 * Updates the {@link Occasion} that has the given {@link OccasionCode} assigned.
+	 *
+	 * @param trackedCaseId
+	 * @param occasion must not be {@literal null}.
+	 * @param id
+	 * @return will never be {@literal null}.
+	 */
+	public Occasion updateOccasionBy(String title, LocalDateTime start, LocalDateTime end,
+									 String street, String houseNumber, String zipCode, String city, String additionalInformation, String contactPerson, Occasion existing) {
+		Address address = new Address(street, Address.HouseNumber.of(houseNumber), city, ZipCode.of(zipCode));
+		existing.setTitle(title);
+		existing.setStart(start);
+		existing.setEnd(end);
+		existing.setAddress(address);
+		existing.setAdditionalInformation(additionalInformation);
+		existing.setContactPerson(contactPerson);
+		return occasions.save(existing);
 	}
 
 	/**
@@ -86,4 +114,8 @@ public class OccasionManagement {
 				? occasionCode
 				: findValidOccasionCode();
 	}
+
+    public void deleteOccasion(Occasion occasion) {
+		occasions.delete(occasion);
+    }
 }

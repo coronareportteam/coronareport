@@ -20,6 +20,7 @@ export enum VALIDATION_PATTERNS {
   email = 'email',
   city = 'city',
   extReferenceNumber = 'extReferenceNumber',
+  timestamp = 'timestamp',
 }
 
 export class ValidationPattern {
@@ -91,6 +92,10 @@ export class ValidationPattern {
     this._patterns.set(VALIDATION_PATTERNS.extReferenceNumber, {
       pattern: `[${characterSet}0-9\\-\\_\\/]*`,
       errorMessage: 'VALIDATION.EXT_REFERENCE_NUMBER',
+    });
+    this._patterns.set(VALIDATION_PATTERNS.timestamp, {
+      pattern: '((?:(?:0|1)\\d|2[0-3])):([0-5]\\d)',
+      errorMessage: 'VALIDATION.TIMESTAMP',
     });
   }
 }

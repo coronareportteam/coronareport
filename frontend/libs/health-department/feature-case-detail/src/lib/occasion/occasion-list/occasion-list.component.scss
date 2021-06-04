@@ -1,0 +1,21 @@
+.events-grid {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(3, auto);
+}
+
+.new-event-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.new-event-subtitle {
+  position: absolute;
+  top: 75%;
+}
+
+mat-card {
+  min-height: 208px;
+}

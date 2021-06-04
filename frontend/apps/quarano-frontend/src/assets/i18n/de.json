@@ -35,7 +35,8 @@
 		"ZURÜCK": "Zurück"
 	},
 	"CASE_DETAIL": {
-		"DIARY": "Tagebuch"
+		"DIARY": "Tagebuch",
+    "EVENTS": "Ereignisse"
 	},
 	"CHANGE_PASSWORD": {
 		"BISHERIGES_PASSWORT": "Bisheriges Passwort",
@@ -389,7 +390,8 @@
 		"USERNAME": "Bitte geben Sie einen gültigen Benutzernamen ein! Dieser kann Buchstaben, Zahlen, Binde- oder Unterstriche enthalten",
 		"USERNAME_INVALID": "Der angegebene Benutzername kann nicht verwendet werden",
 		"UUID": "Bitte geben Sie eine gültige UUID ein",
-		"ZIP": "Bitte geben Sie eine gültige Postleitzahl aus 5 Ziffern an"
+		"ZIP": "Bitte geben Sie eine gültige Postleitzahl aus 5 Ziffern an",
+    "TIMESTAMP": "Benötigtes Format hh:mm (20:15)"
 	},
 	"WELCOME": {
 		"INDEXFÄLLE": "Indexfälle",

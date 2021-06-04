@@ -16,6 +16,8 @@ import { ConfirmationDialogComponent } from '@qro/shared/ui-confirmation-dialog'
 import { CloseCaseDialogComponent } from '../close-case-dialog/close-case-dialog.component';
 import { ApiService, HalResponse } from '@qro/shared/util-data-access';
 import { CaseType } from '@qro/auth/api';
+import { OccasionService } from '../occasion/occasion.service';
+import { OccasionDto } from '../../../../domain/src/lib/model/occasion';
 
 @Component({
   selector: 'qro-case-detail',
@@ -31,6 +33,7 @@ export class CaseDetailComponent implements OnDestroy {
   caseLabel$: Observable<string>;
   ClientType = CaseType;
   caseDetail$: Observable<CaseDto>;
+  occasions$: Observable<OccasionDto[]>;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,7 +42,8 @@ export class CaseDetailComponent implements OnDestroy {
     private apiService: ApiService,
     private dialog: MatDialog,
     private entityService: CaseEntityService,
-    private router: Router
+    private router: Router,
+    private occasionService: OccasionService
   ) {
     this.initData();
     this.setCaseLabel();
@@ -74,6 +78,8 @@ export class CaseDetailComponent implements OnDestroy {
         return this.entityService.emptyCase;
       })
     );
+
+    this.occasions$ = this.occasionService.getOccasions();
   }
 
   getStartTrackingTitle(caseDetail: CaseDto, buttonIsDisabled: boolean): string {

@@ -27,7 +27,7 @@ class OccasionManagementIntegrationTests {
 	void testCreateEvent() {
 
 		var event = occasions.createOccasion("TestEvent", today.atStartOfDay(), today.plusDays(1).atStartOfDay(),
-				TrackedCaseDataInitializer.TRACKED_CASE_MARKUS);
+				"Musterstraße", "2", "12345", "Musterstadt", "Event Location ftw", "Oma Gerda", TrackedCaseDataInitializer.TRACKED_CASE_MARKUS);
 
 		assertThat(event).map(Occasion::getOccasionCode).isPresent();
 	}
@@ -36,7 +36,7 @@ class OccasionManagementIntegrationTests {
 	void testCreateEventAndAddGroup() {
 
 		var event = occasions.createOccasion("TestEvent 2", today.atStartOfDay(), today.plusDays(1).atStartOfDay(),
-				TrackedCaseDataInitializer.TRACKED_CASE_MARKUS).orElseThrow();
+                "Musterstraße", "2", "12345", "Musterstadt", "Event Location ftw", "Oma Gerda", TrackedCaseDataInitializer.TRACKED_CASE_MARKUS).orElseThrow();
 
 		var visitorGroup = new VisitorGroup(today.atStartOfDay(), event.getOccasionCode())
 				.setComment("Comment")

@@ -1,0 +1,17 @@
+<div class="events-grid">
+  <mat-card class="new-event-card">
+    <button mat-fab color="primary" (click)="openOccasionDetailDialog()">
+      <mat-icon>
+        <span>+</span>
+      </mat-icon>
+    </button>
+    <p class="new-event-subtitle">Neues Ereignis anlegen</p>
+  </mat-card>
+  <div *ngFor="let occasion of occasions | async">
+    <qro-occasion-card
+      [occasion]="occasion"
+      (saveOccasionEvent)="editOccasion($event)"
+      (deleteOccasionEvent)="deleteOccasion($event)"
+    ></qro-occasion-card>
+  </div>
+</div>

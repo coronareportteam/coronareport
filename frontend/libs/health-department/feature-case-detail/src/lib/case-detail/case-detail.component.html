@@ -176,6 +176,16 @@
       >
         {{ 'CASE_DETAIL.DIARY' | translate }}
       </a>
+      <a
+        data-cy="event-list-link"
+        mat-tab-link
+        [routerLink]="['events']"
+        routerLinkActive
+        #rlevents="routerLinkActive"
+        [active]="rlevents.isActive"
+      >
+        {{ 'CASE_DETAIL.EVENTS' | translate }}<span class="info-badge">{{ (occasions$ | async)?.length }}</span>
+      </a>
     </nav>
     <router-outlet></router-outlet> </mat-card-content
 ></mat-card>
